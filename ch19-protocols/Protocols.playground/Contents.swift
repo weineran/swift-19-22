@@ -1,6 +1,6 @@
 import Cocoa
 
-protocol TabularDataSource: CustomStringConvertible {
+protocol TabularDataSource {
     // Any type that conforms to this protocol must have two properties:
     var numberOfRows: Int { get }  // { get } means these properties must be readable
     var numberOfColumns: Int { get }
@@ -22,7 +22,8 @@ func padding(amount: Int) -> String {
 }
 
 
-func printTable(dataSource: TabularDataSource) {
+func printTable(dataSource: TabularDataSource & CustomStringConvertible) {
+    // NOTE the protocol<> syntax is deprecated.  So use '&' instead.
     print("Table: \(dataSource.description)")
     
     // Create arrays of the row and column labels
