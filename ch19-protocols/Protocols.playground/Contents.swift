@@ -1,6 +1,6 @@
 import Cocoa
 
-protocol TabularDataSource {
+protocol TabularDataSource: CustomStringConvertible {
     // Any type that conforms to this protocol must have two properties:
     var numberOfRows: Int { get }  // { get } means these properties must be readable
     var numberOfColumns: Int { get }
@@ -23,6 +23,8 @@ func padding(amount: Int) -> String {
 
 
 func printTable(dataSource: TabularDataSource) {
+    print("Table: \(dataSource.description)")
+    
     // Create arrays of the row and column labels
     let rowLabels = (0 ..< dataSource.numberOfRows).map { dataSource.labelForRow(row: $0) }
     let columnLabels = (0 ..< dataSource.numberOfColumns).map {
@@ -127,4 +129,4 @@ department.addPerson(person: Person(name: "Karen", age: 40, yearsOfExperience: 1
 department.addPerson(person: Person(name: "Fred", age: 50, yearsOfExperience: 20))
 
 printTable(dataSource: department)
-print(department)
+
