@@ -126,6 +126,7 @@ class Parser {
 func evaluate(input: String) {
     print("Evaluating: \(input)")
     let lexer = Lexer(input: input)
+    
     do {
         let tokens = try lexer.lex()
         print("Lexer output: \(tokens)")
