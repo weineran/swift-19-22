@@ -49,3 +49,22 @@ func myMap<T,U>(items: [T], f: (T) -> (U)) -> [U] {
 let strings = ["one", "two", "three"]
 let stringLengths = myMap(items: strings) { $0.characters.count }
 print(stringLengths) // Prints [3, 3, 5]
+
+// NOTE I removed the underscore before second
+func checkIfEqual<T: Equatable>(first: T, second: T) -> Bool {
+    return first == second
+}
+
+print(checkIfEqual(first: 1, second: 1))
+print(checkIfEqual(first: "a string", second: "a string"))
+print(checkIfEqual(first: "a string", second: "a different string"))
+
+func checkIfDescriptionsMatch<T: CustomStringConvertible, U: CustomStringConvertible>(
+    first: T, second: U) -> Bool {
+    return first.description == second.description
+}
+
+// NOTE removed underscore again
+print(checkIfDescriptionsMatch(first: Int(1), second: UInt(1)))
+print(checkIfDescriptionsMatch(first: 1, second: 1.0))
+print(checkIfDescriptionsMatch(first: Float(1.0), second: Double(1.0)))
