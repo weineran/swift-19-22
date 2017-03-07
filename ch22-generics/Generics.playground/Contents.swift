@@ -1,6 +1,17 @@
 import Cocoa
 
-struct Stack<Element> {
+// NOTE GeneratorType has been renamed to IteratorProtocol
+struct StackGenerator<T>: IteratorProtocol {
+    typealias Element = T  // NOTE this is verbose, can remove it...
+    
+    var stack: Stack<T>
+    mutating func next() -> Element? {  // ...then replace Element? with T?
+        return stack.pop()
+    }
+}
+
+// NOTE SequenceType has been renamed to Sequence
+struct Stack<Element>: Sequence {
     var items = [Element]()
     mutating func push(newItem: Element) {
         items.append(newItem)
@@ -18,6 +29,11 @@ struct Stack<Element> {
             mappedItems.append(f(item))
         }
         return Stack<U>(items: mappedItems)
+    }
+    
+    // NOTE SequenceType.generate() is now Sequence.makeIterator()
+    func makeIterator() -> StackGenerator<Element> {
+        return StackGenerator(stack: self)
     }
 }
 
@@ -68,3 +84,19 @@ func checkIfDescriptionsMatch<T: CustomStringConvertible, U: CustomStringConvert
 print(checkIfDescriptionsMatch(first: Int(1), second: UInt(1)))
 print(checkIfDescriptionsMatch(first: 1, second: 1.0))
 print(checkIfDescriptionsMatch(first: Float(1.0), second: Double(1.0)))
+
+var myStack = Stack<Int>()
+myStack.push(newItem: 10)
+myStack.push(newItem: 20)
+myStack.push(newItem: 30)
+
+var myStackGenerator = StackGenerator(stack: myStack)
+while let value = myStackGenerator.next() {
+    print("got \(value)")
+}
+// NOTE this ^^ was destructive on the stack, but it was a copy, so we can
+//      still use myStack below
+
+for value in myStack {
+    print("for-in loop: got \(value)")
+}
