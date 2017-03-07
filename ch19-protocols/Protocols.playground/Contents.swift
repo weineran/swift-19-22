@@ -131,3 +131,5 @@ department.addPerson(person: Person(name: "Fred", age: 50, yearsOfExperience: 20
 
 printTable(dataSource: department)
 
+var tabularDataSource = TabularDataSource(numberOfRows: 5, numberOfColumns: 4)
+
