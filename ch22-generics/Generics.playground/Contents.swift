@@ -100,3 +100,30 @@ while let value = myStackGenerator.next() {
 for value in myStack {
     print("for-in loop: got \(value)")
 }
+
+// NOTE 'where' clause next to generic parameter is deprecated, so moved to end of signature
+//      also replaced S.Generator with S.Iterator
+func pushItemsOntoStack<Element, S: Sequence>( stack: inout Stack<Element>, fromSequence sequence: S)
+    where S.Iterator.Element == Element {
+    for item in sequence {
+        stack.push(newItem: item)
+    }
+}
+
+
+pushItemsOntoStack(stack: &myStack, fromSequence: [1, 2, 3])
+    for value in myStack {
+        print("after pushing: got \(value)")
+}
+
+var myOtherStack = Stack<Int>()
+pushItemsOntoStack(stack: &myOtherStack, fromSequence: [1, 2, 3])
+pushItemsOntoStack(stack: &myStack, fromSequence: myOtherStack)
+for value in myStack {
+    print("after pushing items onto stack, got \(value)")
+}
+
+
+
+
+
